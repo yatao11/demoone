@@ -1,6 +1,9 @@
 package com.demoone.utils;
 
 import com.demoone.data.entity.PhoneModel;
+import com.demoone.support.exception.SellException;
+import com.demoone.support.sys.ErrCode;
+import com.demoone.support.sys.OptResult;
 import com.google.i18n.phonenumbers.PhoneNumberToCarrierMapper;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
@@ -44,13 +47,15 @@ public class PhoneUtil {
 	 * @return true-有效 false-无效
 	 */
 	public static boolean checkPhoneNumber(String phoneNumber) {
-		long phone = Long.parseLong(phoneNumber);
+		if (phoneNumber!=null &&  phoneNumber.length()==11){
+			long phone = Long.parseLong(phoneNumber);
+			Phonenumber.PhoneNumber pn = new Phonenumber.PhoneNumber();
+			pn.setCountryCode(COUNTRY_CODE);
+			pn.setNationalNumber(phone);
 
-		Phonenumber.PhoneNumber pn = new Phonenumber.PhoneNumber();
-		pn.setCountryCode(COUNTRY_CODE);
-		pn.setNationalNumber(phone);
-
-		return phoneNumberUtil.isValidNumber(pn);
+			return phoneNumberUtil.isValidNumber(pn);
+		}
+		throw new SellException(ErrCode.ILLEGAL_PARAM);
 
 	}
 
@@ -144,19 +149,10 @@ public class PhoneUtil {
 				phoneModel.setCityName(splitArr[1]);
 				return phoneModel;
 			}
+		}else {
+			throw new SellException(9999,"该号码无效");
 		}
 		return null;
-	}
-
-	public static void main(String[] args) {
-		PhoneModel phoneModel = PhoneUtil.getPhoneModel("15296797396");
-		if(phoneModel != null){
-			System.out.println(phoneModel.getProvinceName());
-			System.out.println(phoneModel.getCityName());
-			System.out.println(phoneModel.getCarrier());
-		}else{
-			System.err.println("该号码无效");
-		}
 	}
 
 }

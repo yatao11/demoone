@@ -3,7 +3,11 @@ package com.demoone.data.web;
 import com.demoone.common.entity.CommonArea;
 import com.demoone.common.mapper.CommonAreaDao;
 import com.demoone.common.service.ICommonAreaService;
+import com.demoone.data.entity.IdcardInfoExtractor;
 import com.demoone.data.entity.PhoneModel;
+import com.demoone.data.service.IIdcardInfoExtractorService;
+import com.demoone.support.exception.SellException;
+import com.demoone.support.sys.ErrCode;
 import com.demoone.support.sys.OptResult;
 import com.demoone.utils.PhoneUtil;
 import io.swagger.annotations.Api;
@@ -33,24 +37,38 @@ public class SmallToolController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "phoneNum"  ,value = "手机号", paramType = "query")
 	})
-	@GetMapping()
+	@GetMapping("queryCompInfoByCondition")
 	public OptResult queryCompInfoByCondition(String phoneNum) {
-		OptResult result = OptResult.success();
+		OptResult result = null;
 		PhoneModel phoneModel = PhoneUtil.getPhoneModel(phoneNum);
-		if(phoneModel != null){
-			if (phoneModel.getCityName()!=null){
-				CommonArea commonArea = iCommonAreaService.getOne(phoneModel.getCityName());
-				DtoPhoneAddress dtoPhoneAddress = new DtoPhoneAddress();
-				dtoPhoneAddress.setProvince(phoneModel.getProvinceName());
-				dtoPhoneAddress.setCity(phoneModel.getCityName());
-				dtoPhoneAddress.setCarrier(phoneModel.getCarrier());
-				dtoPhoneAddress.setAreacode(commonArea.getProcode().toString());
-				dtoPhoneAddress.setZip(commonArea.getId().toString());
-				result.setData(dtoPhoneAddress);
-			}
+		if(phoneModel != null && phoneModel.getCityName()!=null){
+			CommonArea commonArea = iCommonAreaService.getOne(phoneModel.getCityName());
+			DtoPhoneAddress dtoPhoneAddress = new DtoPhoneAddress();
+			dtoPhoneAddress.setProvince(phoneModel.getProvinceName());
+			dtoPhoneAddress.setCity(phoneModel.getCityName());
+			dtoPhoneAddress.setCarrier(phoneModel.getCarrier());
+			dtoPhoneAddress.setAreacode(commonArea.getProcode().toString());
+			dtoPhoneAddress.setZip(commonArea.getId().toString());
+			result=OptResult.success(dtoPhoneAddress);
 		}else{
-			result.setData("该号码无效");
+			result = OptResult.fail();
+			result.setMsg("手机号无效");
 		}
+		return result;
+	}
+
+
+
+	@Autowired
+	private IIdcardInfoExtractorService iIdcardInfoExtractorService;
+	@ApiOperation(value = "根据身份证号查询详细信息", notes = "根据身份证号查询详细信息",response = IdcardInfoExtractor.class)
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "code"  ,value = "身份证号", paramType = "query")
+	})
+	@GetMapping("queryIdcardInfoExtractor")
+	public OptResult queryIdcardInfoExtractor(String code) {
+		OptResult result = OptResult.success();
+		result.setData(iIdcardInfoExtractorService.getIdcardInfoExtractor(code));
 		return result;
 	}
 }

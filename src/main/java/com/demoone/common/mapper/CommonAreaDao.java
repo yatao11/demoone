@@ -20,4 +20,7 @@ public interface CommonAreaDao extends BaseMapper<CommonArea> {
 
 	@Select("SELECT * FROM common_area WHERE name LIKE '${name}%' limit 1")
 	CommonArea getOne(@Param("name")String name);
+
+	@Select("SELECT * FROM common_area WHERE id = #{id} limit 1")
+	CommonArea getOneById(@Param("id") String id);
 }

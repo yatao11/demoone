@@ -2,6 +2,7 @@ package com.demoone.common.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.demoone.common.entity.CommonArea;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -17,5 +18,7 @@ public interface ICommonAreaService extends IService<CommonArea> {
     List<String> getNameById(List<String> list);
 
 	CommonArea getOne(String name);
+
+	CommonArea getOneById(String id);
 
 }

@@ -121,6 +121,11 @@ public class CommonAreaServiceImpl extends ServiceImpl<CommonAreaDao, CommonArea
 		return baseMapper.getOne(name);
 	}
 
+	@Override
+	public CommonArea getOneById(String id) {
+		return baseMapper.getOneById(id);
+	}
+
 	public List<CommonArea> getRecordsByByPid(Long pid) {
         CommonArea commonArea = new CommonArea();
         commonArea.setPid(pid);
