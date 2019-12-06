@@ -2,15 +2,19 @@ server:
     port: 8081
     tomcat: uri-encoding=UTF-8
 spring:
- datasource:
+  datasource:
          name: demoone
          type: com.alibaba.druid.pool.DruidDataSource
-         url: jdbc:mariadb://192.168.1.114:3306/demoone
+         url: jdbc:mariadb://192.168.1.15:3306/demoone
          username: vkg
          password: vkg
          driver-class-name: org.mariadb.jdbc.Driver # mariadb
 
-
+  data:
+    neo4j:
+      username: neo4j
+      password: 123456
+      uri: http://127.0.0.1:7474
 
 mybatis-plus:
   mapper-locations: classpath:com/demoone/**/mapper/xml/*.xml

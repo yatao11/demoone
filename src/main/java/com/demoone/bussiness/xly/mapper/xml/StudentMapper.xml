@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demoone.bussiness.xly.mapper.StudentDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.demoone.bussiness.xly.entity.Student">
+        <id column="id" property="id" />
+        <result column="sid" property="sid" />
+        <result column="name" property="name" />
+        <result column="gender" property="gender" />
+        <result column="id_no" property="idNo" />
+        <result column="base" property="base" />
+        <result column="join_time" property="joinTime" />
+        <result column="leave_time" property="leaveTime" />
+        <result column="sales" property="sales" />
+        <result column="total_day" property="totalDay" />
+        <result column="surplus_day" property="surplusDay" />
+        <result column="room_id" property="roomId" />
+        <result column="room_no" property="roomNo" />
+        <result column="coach_id" property="coachId" />
+        <result column="cost" property="cost" />
+        <result column="join_weight" property="joinWeight" />
+        <result column="leave_weight" property="leaveWeight" />
+        <result column="state" property="state" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+    </resultMap>
+
+</mapper>

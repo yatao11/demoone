@@ -26,7 +26,7 @@ public class MpGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setAuthor("hq");
+        gc.setAuthor("华强");
         gc.setOutputDir("E:\\zhang\\workspace\\demoone\\src\\main\\java");
         gc.setFileOverride(false);// 是否覆盖同名文件，默认是false
         gc.setActiveRecord(true);// 不需要ActiveRecord特性的请改为false
@@ -56,7 +56,7 @@ public class MpGenerator {
         dsc.setDriverName("org.mariadb.jdbc.Driver");
         dsc.setUsername("vkg");
         dsc.setPassword("vkg");
-        dsc.setUrl("jdbc:mariadb://192.168.1.114:3306/demoone?useUnicode=true&characterEncoding=utf8&useSSL=false");
+        dsc.setUrl("jdbc:mariadb://192.168.1.15:3306/demoone?useUnicode=true&characterEncoding=utf8&useSSL=false");
         mpg.setDataSource(dsc);
 
         // 策略配置
@@ -65,7 +65,7 @@ public class MpGenerator {
         strategy.setTablePrefix(new String[] { "" });// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         strategy.setInclude(new String[] {
-                "data_file_pic","data_history_today"
+                "coach","photo","room","student"
         }); // 需要生成的表
        //  strategy.setExclude(new String[]{"permissions_resources"}); // 排除生成的表
         // 自定义实体父类
@@ -90,7 +90,7 @@ public class MpGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.demoone.data");
+        pc.setParent("com.demoone.bussiness.xly");
 //        pc.setParent("com.yuntucredit.edb.astock");
 //        pc.setParent("com.yuntucredit.common");
         // pc.setModuleName("test");

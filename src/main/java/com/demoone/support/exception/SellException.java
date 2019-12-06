@@ -3,6 +3,7 @@ package com.demoone.support.exception;
 import com.demoone.support.sys.ErrCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author yatao.zhang
@@ -12,6 +13,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class SellException extends RuntimeException{
 
 	private Integer code;
@@ -21,5 +23,10 @@ public class SellException extends RuntimeException{
 	public SellException(ErrCode errCode){
 		this.code = errCode.getCode();
 		this.message = errCode.getMessage();
+	}
+
+	public SellException(ErrCode errCode,String message){
+		this.code = errCode.getCode();
+		this.message = message;
 	}
 }
