@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -134,6 +135,8 @@ public class Student extends Model<Student> {
      */
     @TableField("modify_time")
     private Date modifyTime;
+
+    private List<Photo> listPhoto;
 
     public Integer getId() {
         return id;
