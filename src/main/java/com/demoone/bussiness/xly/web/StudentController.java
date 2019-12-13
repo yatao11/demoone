@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.demoone.bussiness.xly.entity.Student;
 import com.demoone.bussiness.xly.service.IStudentService;
+import com.demoone.bussiness.xly.vo.StudentManagerHeadVo;
 import com.demoone.common.entity.CommonArea;
 import com.demoone.data.dto.DtoPhoneAddress;
 import com.demoone.support.exception.SellException;
@@ -32,7 +33,7 @@ import java.util.List;
  * @author 华强
  * @since 2019-12-06
  */
-@Controller
+@RestController
 @RequestMapping("/xly/base/student")
 @Api(value = "StudentController", description = "学员信息")
 public class StudentController {
@@ -42,22 +43,21 @@ public class StudentController {
 	private IStudentService iStudentService;
 
 	@ApiOperation(value = "批量增加学员信息", notes = "批量增加学员信息")
-	@PostMapping("addList")
-	@ResponseBody
-	public OptResult queryCompInfoByCondition(@RequestBody List<Student> student) {
+	@PostMapping("addStudent")
+	public OptResult addStudent(@RequestBody Student student) {
 		OptResult result = null;
-		if (iStudentService.insertBatch(student)){
+		if (iStudentService.addStudent(student)){
 			result= OptResult.success();
-			result.setMsg("添加成功！");
+			result.setMsg("添加成功!");
 		}else {
-			throw new SellException(ErrCode.FAIL,"添加失败！");
+			result= OptResult.fail();
+			result.setMsg("添加失败，请稍后再试!");
 		}
 		return result;
 	}
 
 	@ApiOperation(value = "删除学员信息", notes = "删除学员信息")
 	@GetMapping("delete")
-	@ResponseBody
 	public OptResult delete(int id) {
 		OptResult result = null;
 		if (iStudentService.deleteById(id)){
@@ -68,9 +68,11 @@ public class StudentController {
 		}
 		return result;
 	}
-	@ApiOperation(value = "先获取学员信息", notes = "先获取学员信息")
+	@ApiOperation(value = "先获取学员信息", notes = "先获取学员信息",response = Student.class)
 	@GetMapping("updateid")
-	@ResponseBody
+	@ApiImplicitParams(
+			@ApiImplicitParam(name = "id",value = "学院id",paramType = "query",required = true)
+	)
 	public OptResult updateId(int id) {
 		OptResult result =OptResult.success();
 		Student student=new Student();
@@ -83,7 +85,6 @@ public class StudentController {
 
 	@ApiOperation(value = "停止学员周期", notes = "停止学员周期")
 	@GetMapping("tingzhouqi")
-	@ResponseBody
 	public OptResult tingZhouQi(int id) {
 		OptResult result = null;
 		if (iStudentService.tingZhouQi(id)){
@@ -98,7 +99,6 @@ public class StudentController {
 
 	@ApiOperation(value = "减学员天数", notes = "减学员天数")
 	@GetMapping("jiantianshu")
-	@ResponseBody
 	public OptResult jianTianShu(int id) {
 		OptResult result = null;
 		if (iStudentService.jianTianShu(id)){
@@ -110,30 +110,16 @@ public class StudentController {
 		return result;
 	}
 
-	@ApiOperation(value = "获取今日在营人数", notes = "获取今日在营人数")
+	@ApiOperation(value = "获取今日在营人数", notes = "获取今日在营人数",response = StudentManagerHeadVo.class)
 	@GetMapping("zongzaiying")
-	@ResponseBody
 	public OptResult zongZaiYing() {
 		OptResult result =OptResult.success();
-		result.setData(iStudentService.zongZaiYing());
+		StudentManagerHeadVo studentManagerHeadVo = new StudentManagerHeadVo();
+		studentManagerHeadVo.setZongzaiying(iStudentService.zongZaiYing());
+		studentManagerHeadVo.setJinchuying(iStudentService.jinChuYing());
+		studentManagerHeadVo.setJinruying(iStudentService.jinRuYing());
+		result.setData(studentManagerHeadVo);
 		return result;
 	}
 
-	@ApiOperation(value = "今日出营人数", notes = "今日出营人数")
-	@GetMapping("jinchuying")
-	@ResponseBody
-	public OptResult jinChuYing() {
-		OptResult result =OptResult.success();
-		result.setData(iStudentService.jinChuYing(DateUtils.getDate()));
-		return result;
-	}
-
-	@ApiOperation(value = "今日入营人数", notes = "今日入营人数")
-	@GetMapping("jinruying")
-	@ResponseBody
-	public OptResult jinRuYing() {
-		OptResult result =OptResult.success();
-		result.setData(iStudentService.jinRuYing(DateUtils.getDate()));
-		return result;
-	}
 }

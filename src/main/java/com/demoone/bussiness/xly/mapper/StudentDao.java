@@ -37,17 +37,17 @@ public interface StudentDao extends BaseMapper<Student> {
      * 今日总在营人数
      */
     @Select("select count(*) from student where state='0'")
-    List zongZaiYing();
+    String zongZaiYing();
 
     /*
      * 今日出营人数
      */
-    @Select("select count(1) from student where state='1' and leave_time=#{leavetime} ")
-    List jinChuYing(String string);
+    @Select("select count(1) from student where state='1' and leave_time=now() ")
+    String jinChuYing();
 
     /*
      * 今日入营人数
      */
-    @Select("select count(1) from student where  join_time=#{jointime} ")
-    List jinRuYing(String string);
+    @Select("select count(1) from student where  join_time=now() ")
+    String jinRuYing();
 }

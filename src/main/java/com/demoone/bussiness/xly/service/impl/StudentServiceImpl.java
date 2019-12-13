@@ -1,11 +1,18 @@
 package com.demoone.bussiness.xly.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.demoone.bussiness.xly.entity.Student;
 import com.demoone.bussiness.xly.mapper.StudentDao;
 import com.demoone.bussiness.xly.service.IStudentService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.demoone.support.exception.SellException;
+import com.demoone.support.sys.ErrCode;
+import com.demoone.utils.string.StringUtils;
+import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,26 +49,56 @@ public class StudentServiceImpl extends ServiceImpl<StudentDao, Student> impleme
      * @param
      * @return 今日总在营人数
      */
-    public List zongZaiYing() {
+    public String zongZaiYing() {
         return baseMapper.zongZaiYing();
     }
 
     /**.
      * 今日出营人数
-     * @param leavetime 今日时间
      * @return  今日出营人数
      */
     @Override
-    public List jinChuYing(String leavetime) {
-        return baseMapper.jinChuYing(leavetime);
+    public String jinChuYing() {
+        return baseMapper.jinChuYing();
     }
     /**.
      *  今日入营人数
-     * @param jointime 今日时间
      * @return  今日入营人数
      */
     @Override
-    public List jinRuYing(String jointime) {
-        return baseMapper.jinRuYing(jointime);
+    public String jinRuYing() {
+        return baseMapper.jinRuYing();
+    }
+
+    @Override
+    public boolean addStudent(Student student) {
+        if (StringUtils.isNotBlank(student.getIdNo())){
+            Wrapper<Student> ew = new EntityWrapper();
+            ew.eq("id_no",student.getSid());
+            List<Student> list = selectList(ew);
+            if (list!=null && list.size()>0){
+                throw new SellException(ErrCode.FAIL,"该学员信息已存在！");
+            }
+        }else{
+            throw  new SellException(ErrCode.FAIL,"身份证号不能为空！");
+        }
+
+        student.setCreateTime(new Date());
+        student.setSid("S"+StringUtils.getRandomNumber(6));
+        for(int i=0;i<-1;i++){
+            Wrapper<Student> ew = new EntityWrapper();
+            ew.eq("sid",student.getSid());
+            List<Student> list = selectList(ew);
+            if (list==null || list.size()<1){
+                break;
+            }
+        }
+        int sex = Integer.parseInt(student.getIdNo().substring(16,17));
+        if (sex%2>0){
+            student.setGender(1);
+        }else {
+            student.setGender(2);
+        }
+        return insert(student);
     }
 }

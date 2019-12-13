@@ -25,13 +25,15 @@ public interface IStudentService extends IService<Student> {
     /**
      *  今日总在营人数
      */
-    List zongZaiYing();
+    String zongZaiYing();
     /**
      *  今日出营人数
      */
-    List jinChuYing(String leavetime);
+    String jinChuYing();
     /**
      *  今日入营人数
      */
-    List jinRuYing(String jointime);
+    String jinRuYing();
+
+    boolean addStudent(Student student);
 }
