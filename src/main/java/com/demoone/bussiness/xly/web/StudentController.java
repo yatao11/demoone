@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.demoone.bussiness.xly.entity.Student;
 import com.demoone.bussiness.xly.service.IStudentService;
+import com.demoone.bussiness.xly.vo.StudentDropDown;
 import com.demoone.bussiness.xly.vo.StudentManagerHeadVo;
 import com.demoone.common.entity.CommonArea;
 import com.demoone.data.dto.DtoPhoneAddress;
@@ -42,7 +43,7 @@ public class StudentController {
 	@Autowired
 	private IStudentService iStudentService;
 
-	@ApiOperation(value = "批量增加学员信息", notes = "批量增加学员信息")
+	@ApiOperation(value = "增加学员信息", notes = "增加学员信息")
 	@PostMapping("addStudent")
 	public OptResult addStudent(@RequestBody Student student) {
 		OptResult result = null;
@@ -122,4 +123,16 @@ public class StudentController {
 		return result;
 	}
 
+
+	@ApiOperation(value = "获取学员的下拉框", notes = "获取学员的下拉框",response = StudentDropDown.class)
+	@GetMapping("studentdropdown")
+	public OptResult StudentDropDown() {
+		OptResult result =OptResult.success();
+		StudentDropDown studentDropDown = new StudentDropDown();
+		studentDropDown.setBasedropdown(iStudentService.baseDropDown());
+		studentDropDown.setCoachdropdown(iStudentService.coachDropDown());
+		studentDropDown.setRoomdropdown(iStudentService.roomDropDown());
+		result.setData(studentDropDown);
+		return result;
+	}
 }

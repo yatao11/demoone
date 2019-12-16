@@ -25,7 +25,7 @@ import java.util.List;
  * @author 华强
  * @since 2019-12-06
  */
-@Controller
+@RestController
 @RequestMapping("/coach")
 @Api(value = "CoachController", description = "教练信息")
 public class CoachController {
@@ -36,11 +36,11 @@ public class CoachController {
     private ICoachService  iCoachService;
 
     @ApiOperation(value = "批量增加教练信息", notes = "批量增加教练信息")
-    @PostMapping("addList")
+    @PostMapping("addCoach")
     @ResponseBody
-    public OptResult queryCompInfoByCondition(@RequestBody List<Coach> coach) {
+    public OptResult addCoach(@RequestBody Coach coach) {
         OptResult result = null;
-        if (iCoachService.insertBatch(coach)){
+        if (iCoachService.addCoach(coach)){
             result= OptResult.success();
             result.setMsg("添加成功！");
         }else {

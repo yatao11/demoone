@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface ICoachService extends IService<Coach> {
 
+    boolean addCoach(Coach coach);
 }

@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface IRoomService extends IService<Room> {
 
+    boolean addRoom(Room room);
 }

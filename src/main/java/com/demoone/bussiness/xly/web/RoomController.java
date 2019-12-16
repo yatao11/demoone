@@ -29,7 +29,7 @@ import java.util.List;
  * @author 华强
  * @since 2019-12-06
  */
-@Controller
+@RestController
 @RequestMapping("/room")
 @Api(value = "RoomController", description = "房间信息")
 public class RoomController {
@@ -38,16 +38,17 @@ public class RoomController {
     @Autowired
     private IRoomService iRoomService;
 
-    @ApiOperation(value = "批量增加房间信息", notes = "批量增加房间信息")
-    @PostMapping("addList")
+    @ApiOperation(value = "增加房间信息", notes = "增加房间信息")
+    @PostMapping("addRoom")
     @ResponseBody
-    public OptResult queryCompInfoByCondition(@RequestBody List<Room> room) {
+    public OptResult addRoom(@RequestBody Room room) {
         OptResult result = null;
-        if (iRoomService.insertBatch(room)){
+        if (iRoomService.addRoom(room)){
             result= OptResult.success();
             result.setMsg("添加成功！");
         }else {
-            throw new SellException(ErrCode.FAIL,"添加失败！");
+            result= OptResult.fail();
+            result.setMsg("添加失败，请稍后再试!");
         }
         return result;
     }
