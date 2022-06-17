@@ -18,7 +18,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-        <fastjson.version>1.2.31</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <druid.version>1.0.29</druid.version>
         <mariadb.jdbc.version>1.5.8</mariadb.jdbc.version>
         <springfox.swagger.version>2.6.1</springfox.swagger.version>
