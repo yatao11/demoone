@@ -21,7 +21,7 @@
         <fastjson.version>1.2.31</fastjson.version>
         <druid.version>1.0.29</druid.version>
         <mariadb.jdbc.version>1.5.8</mariadb.jdbc.version>
-        <springfox.swagger.version>2.6.1</springfox.swagger.version>
+        <springfox.swagger.version>2.10.0</springfox.swagger.version>
         <commons.lang3.version>3.5</commons.lang3.version>
         <pinyin4j.version>2.5.1</pinyin4j.version>
 	</properties>
